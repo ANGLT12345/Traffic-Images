@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Images in Singapore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="clock" id="clock" style="color: #007BFF; font-size: 20px;font-weight:bold" ></div> <!-- Clock Display -->
+
+    <h1>Traffic Images in Singapore</h1>
+
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+        <form method="GET" action="/">
+            <button type="submit" name="filter" value="AYE">AYE</button>
+            <button type="submit" name="filter" value="CTE">CTE</button>
+            <button type="submit" name="filter" value="TPE">TPE</button>
+            <button type="submit" name="filter" value="BKE">BKE</button>
+            <button type="submit" name="filter" value="Woodlands Checkpoint">Woodlands Checkpoint</button>
+            <button type="submit" name="filter" value="Tuas Checkpoint">Tuas Checkpoint</button>
+            <button type="submit" name="filter" value="">Show All</button> <!-- To show all cameras -->
+        </form>
+    </div>
+
+    <div class="container">
+        {% for camera in cameras %}
+            <div class="camera-card">
+                <h2>Location: {{ camera.LocationDescription }}</h2>
+                <img src="{{ camera.ImageLink }}" alt="Traffic Image">
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        setInterval(updateClock, 1000); // Update the clock every second
+        updateClock(); // Initial call to display clock immediately
+    </script>
+</body>
+</html>
